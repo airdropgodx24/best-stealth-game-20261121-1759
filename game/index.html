@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Archive — a stealth game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="wrap">
+  <header>
+    <h1>The Quiet Archive</h1>
+    <p class="tag">Slip past the wardens. Take the three seal-stamps. Leave unseen.</p>
+  </header>
+  <div id="stage">
+    <canvas id="game" width="1280" height="480"></canvas>
+    <div id="hud">
+      <span id="hud-level">Level 1 · The Reading Room</span>
+      <span id="hud-stamps">Seals 0 / 3</span>
+      <span id="hud-time">00:00</span>
+      <span id="hud-sound">Sound: on (M)</span>
+    </div>
+    <div id="overlay" class="hidden"></div>
+  </div>
+  <footer>
+    <p><b>Move</b> WASD or arrow keys &nbsp;·&nbsp; <b>Sneak</b> hold Shift (slow, silent, hard to spot) &nbsp;·&nbsp; <b>Click</b> a spot to walk there &nbsp;·&nbsp; <b>R</b> restart level &nbsp;·&nbsp; <b>P</b> pause &nbsp;·&nbsp; <b>M</b> mute</p>
+    <p>Wardens see inside their amber cones. Shelves block sight. Dark pools hide you even inside a cone. Running is loud: nearby wardens turn to look.</p>
+  </footer>
+</div>
+<script src="src/audio.js"></script>
+<script src="src/levels.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

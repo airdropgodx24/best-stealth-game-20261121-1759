@@ -2,7 +2,8 @@
    Copies the game and its screenshots into the output directory and writes
    the dossier with the kit's own library. No network, no randomness: two
    runs write identical bytes. Outside the grader, MAKEFUN_OUTPUT_DIR
-   stands in for /output. */
+   stands in for /output. The output directory is emptied in place, never
+   removed itself, so a volume-mounted /output is safe to write to. */
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +21,16 @@ if (!existsSync(join(root, 'game', 'index.html'))) {
   throw new Error('main.ts: game/index.html is missing');
 }
 
-rmSync(outDir, { recursive: true, force: true });
+// Empty the output directory's CONTENTS instead of removing the directory
+// itself: the grader mounts /output as a volume, and removing the mount
+// point fails with EBUSY ("Device or resource busy").
+if (!existsSync(outDir)) {
+  mkdirSync(outDir, { recursive: true });
+} else {
+  for (const child of readdirSync(outDir)) {
+    rmSync(join(outDir, child), { recursive: true, force: true });
+  }
+}
 mkdirSync(outDir, { recursive: true });
 cpSync(join(root, 'game'), join(outDir, 'game'), { recursive: true });
 cpSync(join(root, 'screenshots'), join(outDir, 'screenshots'), { recursive: true });
